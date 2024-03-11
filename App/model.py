@@ -121,7 +121,7 @@ def newCatalog():
     La columna 'titles' del archivo books.csv
     """
     # TODO lab 6, agregar el ADT map con newMap()
-    catalog['titles'] = mp.newMap(0,
+    catalog['titles'] = mp.newMap(10000,
                                  maptype='PROBING',
                                  loadfactor=0.5,
                                  cmpfunction=compareTitles)
@@ -274,7 +274,16 @@ def addBookTitle(catalog, book):
     """
     Completar la descripcion de addBookTitle
     """
-    pass
+    title = book["original_title"]
+    mapa = catalog["titles"]
+    entry = mp.get(mapa,title)
+    if entry:
+        value = me.getValue(entry)
+    else:
+        value = lt.newList()
+        mp.put(mapa,title,value)
+    lt.addLast(value,book)
+ 
 
 
 # ==============================
@@ -318,11 +327,9 @@ def getBookByTitle(catalog, title):
     """
     Completar la descripcion de getBookByTitle
     """
-    titl = mp.get(catalog["title"], title)
+    titl = mp.get(catalog["titles"], title)
     if titl:
-        return me.getValue(titl)["books"]
-    pass
-
+        return me.getValue(titl)
 
 def booksSize(catalog):
     """
